@@ -1,0 +1,22 @@
+.containerSearchInmueble {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerSearchInmueble input{
+    text-align: center;
+}
+
+.containerKeyboard {
+  /* background-color: red; */
+  width: 35%;
+}
+
+/* Dentro de SearchInmueble.module.css */
+:global(.simple-keyboard .boton-buscar) {
+  background-color: #8cd5ff !important; /* rojo */
+  /* color: white; */
+  font-weight: bold;
+}
