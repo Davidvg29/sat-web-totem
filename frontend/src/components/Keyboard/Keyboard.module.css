@@ -1,0 +1,16 @@
+.keyboard{
+    /* background-color: red; */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.key{
+    margin: 3px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 100px;
+    font-size: 30px;
+    border-radius: 10px;
+}

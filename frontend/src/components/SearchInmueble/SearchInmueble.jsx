@@ -1,62 +1,53 @@
 import { useState } from "react";
 import css from "./SearchInmueble.module.css"
-import Keyboard from "react-simple-keyboard";
-import "react-simple-keyboard/build/css/index.css";
+import Keyboard from "../Keyboard/Keyboard"
+import validarCodInmueble from "../../validations/validateCodInmueble.js"
+import axios from "axios"
+import Loader from "../Loader/Loader.jsx";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const SearchInmueble = () => {
+    const navigate = useNavigate()
 
-    // teclado solo con números
-    const numericLayout = {
-        default: [
-        "1 2 3",
-        "4 5 6",
-        "7 8 9",
-        "0 {bksp}",
-        "{Buscar}"
-        ]
-    };
+    const [inputValue, setInputValue] = useState("")
+    const [message, setMessage] = useState("")
+    const [loader, setLoader] = useState(false)
 
-    const [codInmueble, setCodInmueble] = useState("")
-
-    const handleCodInmueble = (e)=>{
-        setCodInmueble(e.target.value)
+    const handleInputValue = (key)=>{
+        if(key != "Borrar"){setInputValue(inputValue + key); setMessage("")}
+        if(key === "Borrar"){setInputValue(inputValue.slice(0, -1)); setMessage("")}
+        if(key === "Cancelar"){ setInputValue(""); setMessage("")}
     }
 
-     const handleKeyPress = (button) => {
-    console.log("Tecla presionada:", button);
-        setCodInmueble(button)
-    if (button === "{Buscar}") {
-      alert(`Buscando inmueble con código: ${input}`);
-      // Aquí podrías hacer una búsqueda real
-    }
+    const searchInmueble = async()=>{
+        
+        try {
+            const validation = validarCodInmueble(inputValue)
+            if(!validation){ return setMessage("Escribe un codigo de inmueble correcto")}
+            else{setMessage("")}
+            setLoader(true)
+            const {data} = await axios(`http://localhost:3000/totem/inmueble/${inputValue}`)
+            if(data.status === true){
+                setLoader(false)
+                navigate("/inmueble", { state: data.informacion })
+            }
 
-    if (button === "{bksp}") {
-      // Borrar el último carácter manualmente (opcional)
-      setInput((prev) => prev.slice(0, -1));
+        } catch (error) {
+            setMessage("Ocurrió un error. Intente más tarde.")
+        }
     }
-  };
 
     return ( 
         <div className={css.containerSearchInmueble}>
             <h2>¡Bienvenido!</h2>
             <p>Ingrese el código del inmueble para visualizar las facturas vigentes.</p> 
-            <input value={codInmueble} type="text" placeholder="12345678"/>
-            <div className={css.containerKeyboard}>
-                <Keyboard 
-                    className={css.keyboard}
-                    onChange={handleCodInmueble} 
-                    onKeyPress={handleKeyPress}
-                    layout={numericLayout} 
-                    display= {{
-                            '{bksp}': '⌫',
-                            '{Buscar}': 'Buscar'
-                    }}
-                    buttonTheme={[{
-                        class: "boton-buscar",
-                        buttons: "{Buscar}"}
-                    ]}
-                    />
+            <input type="text" value={inputValue} onChange={handleInputValue} placeholder="ej 16400000"/>
+            <div className={css.containerKeyboard}> 
+                <Keyboard handleInputValue={handleInputValue}/>
+                <button className={css.butonBuscar} value="Buscar" onClick={searchInmueble}>BUSCAR</button>
+                <p className={css.message}>{message}</p>
             </div>
+            {loader ? (<Loader/>) : ""}
         </div>
      );
 }
