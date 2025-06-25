@@ -35,8 +35,9 @@ const getInmueble = async (req, res) => {
             });
         }
 
+        let infoInmueble = {}
         const archivoTxt = await leerArchivoRemotoTxt(`res_ident_de_clientes${codInmueble}.txt`);
-        return res.status(200).json({
+        infoInmueble = {
             status: true,
             message: "Inmueble encontrado",
             informacion: {
@@ -59,8 +60,36 @@ const getInmueble = async (req, res) => {
                     barrio: archivoTxt.toString().slice(125, 155).trim(),
                     localidad: archivoTxt.toString().slice(155, 185).trim(),
                 },
+                facturas_vigentes:{}
             },
-        });
+        }
+        let facturas = []
+        const archivoTxtFacturasVigentes = await leerArchivoRemotoTxt(`res_facturas_vigentes${codInmueble}.txt`);
+        for (let i = 0; i < archivoTxtFacturasVigentes.length-1; i++) {
+            let factura = {
+                codInmueble:"",
+                emision: "",
+                prefijo: "",
+                numFactura: "",
+                periodo: "",
+                vencimiento: "",
+                importe: "",
+                fechaBackup: ""
+            }
+            const linea = archivoTxtFacturasVigentes[i];
+            factura.codInmueble = linea.substring(0, 8)
+            factura.emision = linea.substring(8, 16)
+            factura.prefijo = linea.substring(16, 20)
+            factura.numFactura = linea.substring(20, 28)
+            factura.periodo = linea.substring(28, 34)
+            factura.vencimiento = linea.substring(34, 42)
+            factura.importe = linea.substring(42, 52)
+            factura.fechaBackup = linea.substring(52, 60)
+
+            facturas.push(factura)
+        }
+        infoInmueble.informacion.facturas_vigentes = facturas
+        return res.status(200).json(infoInmueble);
 
     } catch (error) {
         console.error("❌ Error en getInmueble:", error);
