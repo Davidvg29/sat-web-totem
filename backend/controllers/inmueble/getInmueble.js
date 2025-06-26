@@ -1,4 +1,4 @@
-const { crearArchivoRemoto, leerArchivoRemotoTes, leerArchivoRemotoTxt } = require("../../services/funcionesAccesoRemoto");
+const { crearArchivoRemoto, leerArchivoRemotoTes, leerArchivoRemotoTxt, getFacturasVigentesSAT } = require("../../services/funcionesAccesoRemoto");
 const validarCodInmueble = require("../../validations/validarCodInmueble");
 
 const getInmueble = async (req, res) => {
@@ -74,6 +74,7 @@ const getInmueble = async (req, res) => {
                 periodo: "",
                 vencimiento: "",
                 importe: "",
+                nombreArchivoPDF: "",
                 fechaBackup: ""
             }
             const linea = archivoTxtFacturasVigentes[i];
@@ -82,11 +83,34 @@ const getInmueble = async (req, res) => {
             factura.prefijo = linea.substring(16, 20)
             factura.numFactura = linea.substring(20, 28)
             factura.periodo = linea.substring(28, 34)
-            factura.vencimiento = linea.substring(34, 42)
-            factura.importe = linea.substring(42, 52)
-            factura.fechaBackup = linea.substring(52, 60)
+
+            //fecha vencimiento
+            const añoVenc = linea.substring(34, 38)
+		    const mesVenc = linea.substring(38, 40)
+		    const diaVenc = linea.substring(40, 42)
+		    const fechaVencimiento = `${diaVenc}/${mesVenc}/${añoVenc}`;
+            factura.vencimiento = fechaVencimiento
+
+            factura.importe = new Intl.NumberFormat('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(linea.substring(42, 52) / 100);
+            
+            //fecha backup de informacion
+            const añoFIA = linea.substring(52, 56)
+			const mesFIA = linea.substring(56, 58)
+			const diaFIA = linea.substring(58, 60)
+			const fechaInfoActualizada = `${diaFIA}/${mesFIA}/${añoFIA}`
+            factura.fechaBackup = fechaInfoActualizada
+
+            factura.nombreArchivoPDF = `res_facturas_vigentes${linea.substring(16, 20)}${linea.substring(20, 28)}.pdf`
 
             facturas.push(factura)
+            
+            const guardarPdf = await getFacturasVigentesSAT(factura.nombreArchivoPDF)
+            if(!guardarPdf){
+                return res.status(500).json({
+                status: false,
+                message: "Error al guardar PDF de factura.",
+            });
+            }
         }
         infoInmueble.informacion.facturas_vigentes = facturas
         return res.status(200).json(infoInmueble);
