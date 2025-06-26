@@ -17,6 +17,7 @@ const SearchInmueble = () => {
         if(key != "Borrar"){setInputValue(inputValue + key); setMessage("")}
         if(key === "Borrar"){setInputValue(inputValue.slice(0, -1)); setMessage("")}
         if(key === "Cancelar"){ setInputValue(""); setMessage("")}
+        console.log(key)
     }
 
     const searchInmueble = async()=>{
