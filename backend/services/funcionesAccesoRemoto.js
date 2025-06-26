@@ -151,7 +151,7 @@ exports.leerArchivoRemotoTxt = async (nombreArchivoMasCodigoCliente) => {
     }
 };
 
-exports.getFacturasVigentesSAT = async (numFactura) => {
+exports.getFacturasVigentesSAT = async (nombreArchivo) => {
     // guarda el pdf en el directorio cache
     const fs = require("fs");
     const path = require("path");
@@ -160,11 +160,11 @@ exports.getFacturasVigentesSAT = async (numFactura) => {
 
     try {
         conn = await exports.connectSSH();
-        namePDF = `/${process.env.DIRECTORIO_RESPUESTA}/res_facturas_vigentes${numFactura}.pdf`;
+        namePDF = `/${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivo}`;
 
         // Ruta local donde se guardará el archivo
         const localFolderPath = path.join(__dirname, "../cache");
-        const localFilePath = path.join(localFolderPath, `res_facturas_vigentes${numFactura}.pdf`);
+        const localFilePath = path.join(localFolderPath, `${nombreArchivo}`);
 
         // Asegurarse de que la carpeta local existe
         if (!fs.existsSync(localFolderPath)) {
