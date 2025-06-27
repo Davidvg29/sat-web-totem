@@ -5,6 +5,7 @@ import validarCodInmueble from "../../validations/validateCodInmueble.js"
 import axios from "axios"
 import Loader from "../Loader/Loader.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
+import api from "../../axios/api.js"
 
 const SearchInmueble = () => {
     const navigate = useNavigate()
@@ -17,7 +18,6 @@ const SearchInmueble = () => {
         if(key != "Borrar"){setInputValue(inputValue + key); setMessage("")}
         if(key === "Borrar"){setInputValue(inputValue.slice(0, -1)); setMessage("")}
         if(key === "Cancelar"){ setInputValue(""); setMessage("")}
-        console.log(key)
     }
 
     const searchInmueble = async()=>{
@@ -27,7 +27,7 @@ const SearchInmueble = () => {
             if(!validation){ return setMessage("Escribe un codigo de inmueble correcto")}
             else{setMessage("")}
             setLoader(true)
-            const {data} = await axios(`http://localhost:3000/totem/inmueble/${inputValue}`)
+            const {data} = await api.get(`http://150.150.150.108:3000/totem/inmueble/${inputValue}`)
             if(data.status === true){
                 setLoader(false)
                 navigate("/inmueble", { state: data.informacion })
@@ -48,7 +48,7 @@ const SearchInmueble = () => {
                 <button className={css.butonBuscar} value="Buscar" onClick={searchInmueble}>BUSCAR</button>
                 <p className={css.message}>{message}</p>
             </div>
-            {loader ? (<Loader/>) : ""}
+            {loader ? (<Loader message={"Buscando facturas del inmueble..."}/>) : ""}
         </div>
      );
 }

@@ -1,10 +1,10 @@
 import css from "./Loader.module.css"
 
-const Loader = () => {
+const Loader = ({message}) => {
     return ( 
         <div className={css.containerLoader}>
             <div className={css.spinner} />
-            <p>Buscando facturas del inmueble...</p>
+            <p>{message}</p>
         </div>
      );
 }
