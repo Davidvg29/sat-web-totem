@@ -20,6 +20,11 @@ const SearchInmueble = () => {
         if(key === "Cancelar"){ setInputValue(""); setMessage("")}
     }
 
+    const handleChange = (e) => {
+        setInputValue(e.target.value);
+        setMessage("");
+    };
+
     const searchInmueble = async()=>{
         
         try {
@@ -35,6 +40,11 @@ const SearchInmueble = () => {
 
         } catch (error) {
             setMessage("Ocurrió un error. Intente más tarde.")
+            console.log(error.status)
+            if(error.status === 404){
+                setLoader(false)
+                setMessage("Inmueble no encontrado.")
+            }
         }
     }
 
@@ -42,7 +52,7 @@ const SearchInmueble = () => {
         <div className={css.containerSearchInmueble}>
             <h2>¡Bienvenido!</h2>
             <p>Ingrese el código del inmueble para visualizar las facturas vigentes.</p> 
-            <input type="text" value={inputValue} onChange={handleInputValue} placeholder="ej 16400000"/>
+            <input className={css.inputValueCodInmueble} type="number" value={inputValue} onChange={handleChange} placeholder="ej 16400000"/>
             <div className={css.containerKeyboard}> 
                 <Keyboard handleInputValue={handleInputValue}/>
                 <button className={css.butonBuscar} value="Buscar" onClick={searchInmueble}>BUSCAR</button>
