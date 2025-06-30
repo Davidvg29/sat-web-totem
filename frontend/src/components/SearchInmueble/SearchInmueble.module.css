@@ -7,6 +7,11 @@
   /* height: 100vh; */
 }
 
+.containerSearchInmueble h2{
+  margin: 20px;
+  color: #22a2cc;
+}
+
 .containerSearchInmueble input{
     text-align: center;
 }
@@ -34,9 +39,20 @@
     width: 100%;
     padding: 5px;
 }
+.butonBuscar:hover{
+  cursor: pointer;
+  background-color: #a1e7ff;
+}
 
 .inputValueCodInmueble {
   -moz-appearance: textfield;
+  height: 40px;
+  width: 300px;
+  font-size: 32px;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid black;
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -44,4 +60,11 @@
 .inputValueCodInmueble::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.message{
+  color: rgb(240, 77, 77);
+  height: 20px;
+  width: 500px;
+  text-align: center;
 }

@@ -9,7 +9,6 @@ const inmueble = () => {
     return ( 
         <div className={css.containerPageInmueble}>
             <Header/>
-            <Link to="/"><button>atras</button></Link>
             <Inmueble inmueble = {location.state}/>
         </div> 
     );

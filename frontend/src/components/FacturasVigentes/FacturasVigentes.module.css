@@ -4,4 +4,49 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  /* background-color: red; */
+   margin-top: 20px;
+}
+
+.containerTableFactura{
+  /* background-color: red; */
+   margin-top: 20px;
+}
+
+.containerTableFactura th{
+  background-color: #b9e8f8;
+  width: 150px;
+}
+
+.containerTableFactura td{
+  text-align: center;
+  /* background-color: #d6f5ff; */
+}
+.tdNumFactura{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.containerTableFactura td svg{
+  width: 20px;
+  margin: 3px;
+}
+
+.buttonPrint{
+  /* background-color: red; */
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+.buttonPrint:hover{
+  cursor: pointer;
+  background-color: #d6f5ff;
+}
+.buttonPrint img{
+  width: 20px;
 }

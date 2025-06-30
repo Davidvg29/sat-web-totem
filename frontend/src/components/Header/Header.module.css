@@ -4,6 +4,8 @@ header{
     justify-content: center;
     align-items: center;
     padding: 10px;
+    text-align: center;
+    color: #22a2cc;
 }
 header img{
     margin-right: 10px;

@@ -1,0 +1,36 @@
+.containerInmueble{display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerInmueble svg{
+    width: 40px;
+    
+}
+
+.titleDireccion{
+    margin-top: 20px;
+}
+
+.containerBack{
+    /* background-color: red; */
+    width: 100%;
+    max-width: 100%;
+    padding-left: 10%;
+}
+
+.containerDireccion{
+    /* background-color: red; */
+    display: flex;
+}
+
+.containerDireccion p{
+    margin: 5px;
+}
+
+.containerTitleDireccion{
+    /* background-color: red; */
+    /* width: 100%; */
+    /* max-width: 500px; */
+}

@@ -14,3 +14,12 @@
     font-size: 30px;
     border-radius: 10px;
 }
+
+.key svg{
+    width: 50px;
+}
+
+.key:hover{
+    cursor: pointer;
+    background-color: #a1e7ff;
+}

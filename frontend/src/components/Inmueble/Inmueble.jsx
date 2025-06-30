@@ -1,6 +1,27 @@
 import FacturasVigentes from "../FacturasVigentes/FacturasVigentes";
 import css from "./Inmueble.module.css"
+import { Link, useLocation } from "react-router-dom";
 const Inmueble = ({inmueble}) => {
+
+    if(!inmueble){
+        return(
+            <div className={css.containerInmueble}>
+<div className={css.containerBack}>
+  <Link to="/">
+    <svg fill="#000000" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <path d="M222.927 580.115l301.354 328.512c24.354 28.708 20.825 71.724-7.883 96.078s-71.724 20.825-96.078-7.883L19.576 559.963a67.846 67.846 0 01-13.784-20.022 68.03 68.03 0 01-5.977-29.488l.001-.063a68.343 68.343 0 017.265-29.134 68.28 68.28 0 011.384-2.6 67.59 67.59 0 0110.102-13.687L429.966 21.113c25.592-27.611 68.721-29.247 96.331-3.656s29.247 68.721 3.656 96.331L224.088 443.784h730.46c37.647 0 68.166 30.519 68.166 68.166s-30.519 68.166-68.166 68.166H222.927z"></path>
+      </g>
+    </svg>
+  </Link>
+</div>
+                <p>Inmueble no encontrado.</p>
+            </div>
+        )
+    }
+
     const {
         codInmueble, 
         nombre, 
@@ -9,20 +30,32 @@ const Inmueble = ({inmueble}) => {
 
     return ( 
         <div className={css.containerInmueble}>
-            <h2>Informacion de inmueble:</h2>
-            <p>Nº inmueble: {codInmueble}</p>
-            <p>Nombre: {nombre}</p>
-            <h2>Direccion: </h2>
-            <p>Calle: {calle} {numero!=="00000" ? numero : ""}</p>
-            {numero!=="00000" ? (<p>Calle: {numero}</p>) : ""}
-            {piso ? (<p>Piso: {piso}</p>) : ""}
-            {depto ? (<p>Departamento: {depto}</p>) : ""}
-            {manzana ? (<p>Manzana: {manzana}</p>) : ""}
-            {block ? (<p>Block: {block}</p>) : ""}
-            {lote ? (<p>Lote: {lote}</p>) : ""}
-            {casa ? (<p>Casa: {casa}</p>) : ""}
-            {barrio ? (<p>Barrio: {barrio}</p>) : ""}
-            {localidad ? (<p>Localidad: {localidad}</p>) : ""}
+        <div className={css.containerBack}>
+            <Link to="/">
+                <svg fill="#000000" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path d="M222.927 580.115l301.354 328.512c24.354 28.708 20.825 71.724-7.883 96.078s-71.724 20.825-96.078-7.883L19.576 559.963a67.846 67.846 0 01-13.784-20.022 68.03 68.03 0 01-5.977-29.488l.001-.063a68.343 68.343 0 017.265-29.134 68.28 68.28 0 011.384-2.6 67.59 67.59 0 0110.102-13.687L429.966 21.113c25.592-27.611 68.721-29.247 96.331-3.656s29.247 68.721 3.656 96.331L224.088 443.784h730.46c37.647 0 68.166 30.519 68.166 68.166s-30.519 68.166-68.166 68.166H222.927z"></path>
+                </g>
+                </svg>
+            </Link>
+        </div>
+            <h2>Informacion de inmueble</h2>
+            <p><b>Nº inmueble:</b> {codInmueble}</p>
+            <p><b>Nombre:</b> {nombre}</p>
+            <h2 className={css.titleDireccion}>Direccion: </h2>
+            <div className={css.containerDireccion}>
+                <p><b>Calle:</b> {calle} {numero!=="00000" ? numero : ""}</p>
+                {piso ? (<p><b>Piso:</b> {piso} </p>) : ""}
+                {depto ? (<p><b>Departamento:</b> {depto} </p>) : ""}
+                {manzana ? (<p><b>Manzana:</b> {manzana} </p>) : ""}
+                {block ? (<p><b>Block:</b> {block} </p>) : ""}
+                {lote ? (<p><b>Lote:</b> {lote} </p>) : ""}
+                {casa ? (<p><b>Casa:</b> {casa} </p>) : ""}
+                {barrio ? (<p><b>Barrio:</b> {barrio} </p>) : ""}
+                {localidad ? (<p><b>Localidad:</b> {localidad} </p>) : ""}
+            </div>
             <FacturasVigentes facturas={facturas_vigentes}/>
         </div>
     );
