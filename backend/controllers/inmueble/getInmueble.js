@@ -1,4 +1,4 @@
-const { crearArchivoRemoto, leerArchivoRemotoTes, leerArchivoRemotoTxt, getFacturasVigentesSAT } = require("../../services/funcionesAccesoRemoto");
+const { crearArchivoRemoto, leerArchivoRemotoTes, leerArchivoRemotoTxt, getFacturasVigentesSAT, connectSSH } = require("../../services/funcionesAccesoRemoto");
 const validarCodInmueble = require("../../validations/validarCodInmueble");
 
 const getInmueble = async (req, res) => {
@@ -13,7 +13,9 @@ const getInmueble = async (req, res) => {
             });
         }
 
-        const archivoRemoto = await crearArchivoRemoto(codInmueble);
+        const conn = await connectSSH()
+        
+        const archivoRemoto = await crearArchivoRemoto(codInmueble, conn);
         if (!archivoRemoto) {
             return res.status(500).json({
                 status: false,
@@ -21,7 +23,7 @@ const getInmueble = async (req, res) => {
             });
         }
 
-        const archivoTes = await leerArchivoRemotoTes(`res_ident_de_clientes${codInmueble}.tes`);
+        const archivoTes = await leerArchivoRemotoTes(`res_ident_de_clientes${codInmueble}.tes`, conn);
         if (archivoTes === "0001") {
             return res.status(204).json({
                 status: false,
@@ -36,7 +38,7 @@ const getInmueble = async (req, res) => {
         }
 
         let infoInmueble = {}
-        const archivoTxt = await leerArchivoRemotoTxt(`res_ident_de_clientes${codInmueble}.txt`);
+        const archivoTxt = await leerArchivoRemotoTxt(`res_ident_de_clientes${codInmueble}.txt`,conn);
         infoInmueble = {
             status: true,
             message: "Inmueble encontrado",
@@ -64,7 +66,7 @@ const getInmueble = async (req, res) => {
             },
         }
         let facturas = []
-        const archivoTxtFacturasVigentes = await leerArchivoRemotoTxt(`res_facturas_vigentes${codInmueble}.txt`);
+        const archivoTxtFacturasVigentes = await leerArchivoRemotoTxt(`res_facturas_vigentes${codInmueble}.txt`, conn);
         for (let i = 0; i < archivoTxtFacturasVigentes.length-1; i++) {
             let factura = {
                 codInmueble:"",
@@ -104,18 +106,21 @@ const getInmueble = async (req, res) => {
 
             facturas.push(factura)
             
-            const guardarPdf = await getFacturasVigentesSAT(factura.nombreArchivoPDF)
-            if(!guardarPdf){
-                return res.status(500).json({
-                status: false,
-                message: "Error al guardar PDF de factura.",
-            });
-            }
+            // const guardarPdf = await getFacturasVigentesSAT(factura.nombreArchivoPDF, conn)
+            // if(!guardarPdf){
+            //     return res.status(500).json({
+            //     status: false,
+            //     message: "Error al guardar PDF de factura.",
+            // });
+            // }
         }
         infoInmueble.informacion.facturas_vigentes = facturas
+        console.log("Fin del try de funcion getInmueble")
+        conn.end()
         return res.status(200).json(infoInmueble);
 
     } catch (error) {
+        conn.end()
         console.error("❌ Error en getInmueble:", error);
         return res.status(500).json({
             status: false,
