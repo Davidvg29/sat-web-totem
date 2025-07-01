@@ -47,10 +47,9 @@ const SearchInmueble = () => {
 
         } catch (error) {
             setMessage("Ocurrió un error. Intente más tarde.")
-            console.log(error.status)
             if(error.status === 404){
                 setLoader(false)
-                setMessage("Inmueble no encontrado.")
+                setMessage(error.response.data.message)
             }
         }
     }
