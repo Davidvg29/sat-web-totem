@@ -25,10 +25,10 @@ exports.connectSSH = async () => {
     }
 }
 
-exports.crearArchivoRemoto = async (identificacionClienteCodigo) => {
-    let conn;
+exports.crearArchivoRemoto = async (identificacionClienteCodigo, conn) => {
+    // let conn;
     try {
-        conn = await exports.connectSSH();
+        // conn = await exports.connectSSH();
         let command = `mkdir -p /${process.env.DIRECTORIO_SOLICITUD} && echo "${identificacionClienteCodigo}" > /${process.env.DIRECTORIO_SOLICITUD}/sol_facturas_vigentes${identificacionClienteCodigo}`;
         await new Promise((resolve, reject) => {
             conn.exec(command, (err, stream) => {
@@ -55,17 +55,17 @@ exports.crearArchivoRemoto = async (identificacionClienteCodigo) => {
         console.error('❌ Error al crear el archivo:', error);
         return false
     } finally {
-        if (conn) conn.end();
+        // if (conn) conn.end();
         return true
     }
 }
 
-exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente) => {
-    let conn;
+exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente, conn) => {
+    // let conn;
     let fileContent = ''; // Asegúrate de inicializar fileContent
     try {
         let command = `cat /${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivoMasCodigoCliente}`;
-        conn = await exports.connectSSH();
+        // conn = await exports.connectSSH();
 
         // Usamos la promesa para manejar la ejecución del comando SSH
         let exist = true
@@ -98,7 +98,7 @@ exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente) => {
         console.error('❌ Error al leer el archivo:', error);
         return false; // Si ocurre un error, retornamos false
     } finally {
-        if (conn) conn.end(); // Cerramos la conexión SSH
+        // if (conn) conn.end(); // Cerramos la conexión SSH
         console.log(fileContent)
         // Verificar el contenido del archivo
         if (fileContent.trim() == "0000") {
@@ -111,12 +111,12 @@ exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente) => {
     }
 };
 
-exports.leerArchivoRemotoTxt = async (nombreArchivoMasCodigoCliente) => {
-    let conn;
+exports.leerArchivoRemotoTxt = async (nombreArchivoMasCodigoCliente, conn) => {
+    // let conn;
     let fileContent = ''; // Asegúrate de inicializar fileContent
     try {
         let command = `cat /${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivoMasCodigoCliente}`;
-        conn = await exports.connectSSH();
+        // conn = await exports.connectSSH();
         // Usamos la promesa para manejar la ejecución del comando SSH
         await new Promise((resolve, reject) => {
             conn.exec(command, (err, stream) => {
@@ -145,20 +145,20 @@ exports.leerArchivoRemotoTxt = async (nombreArchivoMasCodigoCliente) => {
         console.error('❌ Error al leer el archivo:', error);
         return false; // Si ocurre un error, retornamos false
     } finally {
-        if (conn) conn.end(); // Cerramos la conexión SSH
+        // if (conn) conn.end(); // Cerramos la conexión SSH
         console.log(fileContent)
         return fileContent;
     }
 };
 
-exports.getFacturasVigentesSAT = async (nombreArchivo) => {
+exports.getFacturasVigentesSAT = async (nombreArchivo, conn) => {
     const fs = require("fs");
     const path = require("path");
-    let conn;
+    // let conn;
     let namePDF;
 
     try {
-        conn = await exports.connectSSH();
+        // conn = await exports.connectSSH();
         namePDF = `/${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivo}`;
 
         const localFolderPath = path.join(__dirname, "../cache");
@@ -184,7 +184,7 @@ exports.getFacturasVigentesSAT = async (nombreArchivo) => {
 
                 stream.on('close', () => {
                     fs.writeFile(localFilePath, fileData, (err) => {
-                        conn.end();
+                        // conn.end();
                         if (err) {
                             console.error('❌ Error al guardar el archivo localmente:', err);
                             return reject(false);
