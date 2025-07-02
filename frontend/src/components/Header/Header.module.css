@@ -5,9 +5,13 @@ header{
     align-items: center;
     padding: 10px;
     text-align: center;
-    color: #22a2cc;
+    height: 10vh;
 }
 header img{
     margin-right: 10px;
-    width: 50px;
+    width: 80px;
+}
+header h1{
+    color: var(--azul-sat);
+    font-size: 50px;
 }

@@ -1,7 +1,9 @@
-.containerInmueble{display: flex;
+.containerInmueble{
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    /* background-color: red; */
 }
 
 .containerInmueble svg{
@@ -9,8 +11,35 @@
     
 }
 
+
+.containerInformacion{
+    /* background-color: red; */
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subContainerInformacion{
+    background-color: rgba(255, 255, 255, 0.904);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 50px 50px 50px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.486);
+}
+
+.containerInfo{
+    /* background-color: red; */
+    text-align: center;
+    margin: 30px;
+}
+
 .titleDireccion{
     margin-top: 20px;
+    text-align: center;
 }
 
 .containerBack{
@@ -21,8 +50,14 @@
 }
 
 .containerDireccion{
+    margin-bottom: 30px;
+}
+.subContainerDireccion{
     /* background-color: red; */
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .containerDireccion p{
@@ -33,4 +68,9 @@
     /* background-color: red; */
     /* width: 100%; */
     /* max-width: 500px; */
+}
+
+.pReviseDatos{
+    /* background-color: red; */
+    margin-top: 20px;
 }

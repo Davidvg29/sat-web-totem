@@ -32,8 +32,8 @@ const SearchInmueble = () => {
         setMessage("");
     };
 
-    const searchInmueble = async()=>{
-        
+    const searchInmueble = async(e)=>{
+        e.preventDefault()
         try {
             const validation = validarCodInmueble(inputValue)
             if(!validation){ return setMessage("Escribe un codigo de inmueble correcto")}
@@ -57,14 +57,19 @@ const SearchInmueble = () => {
     return ( 
         <div className={css.containerSearchInmueble}>
             <h2>¡Bienvenido!</h2>
-            <p>Ingrese el código del inmueble para visualizar las facturas vigentes.</p> 
-            <input className={css.inputValueCodInmueble} type="number" value={inputValue} onChange={handleChange} placeholder="ej 16400000"/>
-            <p className={css.message}>{message}</p>
-            <div className={css.containerKeyboard}> 
-                <Keyboard handleInputValue={handleInputValue}/>
-                <button className={css.butonBuscar} value="Buscar" onClick={searchInmueble}>BUSCAR</button>
-            </div>
+            <p><b>Ingrese el código del inmueble para visualizar las facturas a vencer.</b></p> 
+            <div className={css.containerInputKeyboard}>
+                <form onSubmit={searchInmueble}>
+                    <input className={css.inputValueCodInmueble} type="number" value={inputValue} onChange={handleChange} placeholder="Ej: 16400000"/>
+                </form>
+                <p className={css.message}>{message}</p>
+                <div className={css.containerKeyboard}> 
+                    <Keyboard handleInputValue={handleInputValue}/>
+                    <button className={css.butonBuscar} value="Buscar" onClick={searchInmueble}>BUSCAR</button>
+                </div>
+            <p className={css.pAvisoImportante}><b>AVISO IMPORTANTE: Para consultar por facturas vencidas o planes de financiación, dirigirse a los boxes de atención al cliente.</b></p>
             {loader ? (<Loader message={"Buscando facturas del inmueble..."}/>) : ""}
+            </div>
         </div>
      );
 }

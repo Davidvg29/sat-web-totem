@@ -41,22 +41,31 @@ const Inmueble = ({inmueble}) => {
                 </svg>
             </Link>
         </div>
-            <h2>Informacion de inmueble</h2>
-            <p><b>Nº inmueble:</b> {codInmueble}</p>
-            <p><b>Nombre:</b> {nombre}</p>
-            <h2 className={css.titleDireccion}>Direccion: </h2>
-            <div className={css.containerDireccion}>
-                <p><b>Calle:</b> {calle} {numero!=="00000" ? numero : ""}</p>
-                {piso ? (<p><b>Piso:</b> {piso} </p>) : ""}
-                {depto ? (<p><b>Departamento:</b> {depto} </p>) : ""}
-                {manzana ? (<p><b>Manzana:</b> {manzana} </p>) : ""}
-                {block ? (<p><b>Block:</b> {block} </p>) : ""}
-                {lote ? (<p><b>Lote:</b> {lote} </p>) : ""}
-                {casa ? (<p><b>Casa:</b> {casa} </p>) : ""}
-                {barrio ? (<p><b>Barrio:</b> {barrio} </p>) : ""}
-                {localidad ? (<p><b>Localidad:</b> {localidad} </p>) : ""}
+            <div className={css.containerInformacion}>
+                <div className={css.subContainerInformacion}>
+                    <div className={css.containerInfo}>
+                        <h2>Información  de inmueble</h2>
+                        <p><b>N.º de inmueble:</b> {codInmueble}</p>
+                        <p><b>Nombre:</b> {nombre}</p>
+                    </div>
+                    <div className={css.containerDireccion}>
+                        <h2 className={css.titleDireccion}>Dirección: </h2>
+                        <div className={css.subContainerDireccion}>
+                            <p><b>Calle:</b> {calle} {numero!=="00000" ? numero : ""}</p>
+                            {piso ? (<p><b>Piso:</b> {piso} </p>) : ""}
+                            {depto ? (<p><b>Departamento:</b> {depto} </p>) : ""}
+                            {manzana ? (<p><b>Manzana:</b> {manzana} </p>) : ""}
+                            {block ? (<p><b>Block:</b> {block} </p>) : ""}
+                            {lote ? (<p><b>Lote:</b> {lote} </p>) : ""}
+                            {casa ? (<p><b>Casa:</b> {casa} </p>) : ""}
+                            {barrio ? (<p><b>Barrio:</b> {barrio} </p>) : ""}
+                            {localidad ? (<p><b>Localidad:</b> {localidad} </p>) : ""}
+                        </div>
+                    </div>
+                    <FacturasVigentes facturas={facturas_vigentes}/>
+                    <p className={css.pReviseDatos}><b>Por favor revise cuidadosamente sus datos personales y el monto a pagar de sus facturas.</b></p>
+                </div>
             </div>
-            <FacturasVigentes facturas={facturas_vigentes}/>
         </div>
     );
 }
