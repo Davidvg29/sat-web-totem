@@ -60,7 +60,7 @@ const SearchInmueble = () => {
             <p><b>Ingrese el código del inmueble para visualizar las facturas a vencer.</b></p> 
             <div className={css.containerInputKeyboard}>
                 <form onSubmit={searchInmueble}>
-                    <input className={css.inputValueCodInmueble} type="number" value={inputValue} onChange={handleChange} placeholder="Ej: 16400000"/>
+                    <input className={css.inputValueCodInmueble} type="number" autoFocus value={inputValue} onChange={handleChange} placeholder="Ej: 16400000"/>
                 </form>
                 <p className={css.message}>{message}</p>
                 <div className={css.containerKeyboard}> 
