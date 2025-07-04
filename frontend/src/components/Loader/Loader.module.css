@@ -1,0 +1,32 @@
+.containerLoader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(221, 230, 236, 0.473);
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw ;
+  height: 100vh ;
+  backdrop-filter: blur(3px)
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #ddd;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.containerLoader p{
+    margin: 10px;
+}

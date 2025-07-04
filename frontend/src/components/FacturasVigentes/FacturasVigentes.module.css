@@ -1,0 +1,56 @@
+.containerFacturaVigente{ 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 20px;
+}
+
+.containerTableFactura{
+  /* background-color: red; */
+   margin-top: 20px;
+}
+
+.containerTableFactura th{
+  background-color: #b9e8f8;
+  width: 150px;
+}
+
+.containerTableFactura td{
+  text-align: center;
+  /* background-color: #d6f5ff; */
+}
+.tdNumFactura{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.containerTableFactura td svg{
+  width: 20px;
+  margin: 3px;
+}
+
+.buttonPrint{
+  background-color: var(--naranja);
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.534);
+}
+.buttonPrint:hover{
+  cursor: pointer;
+  background-color: #d6f5ff;
+  color: black;
+  transform: scale(1.1);
+}
+.buttonPrint img{
+  width: 25px;
+}
