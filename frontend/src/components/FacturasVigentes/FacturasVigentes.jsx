@@ -13,7 +13,6 @@ const FacturasVigentes = ({facturas}) => {
         try {
             setLoader(true)
             const {data} = await api.get(`/totem/factura/imprimir/${numFactura}`)
-            console.log(data)
             setMessage(data.message)
             if(data.status){
                 setLoader(false)
