@@ -39,7 +39,7 @@ const SearchInmueble = () => {
             if(!validation){ return setMessage("Escribe un codigo de inmueble correcto")}
             else{setMessage("")}
             setLoader(true)
-            const {data} = await api.get(`http://150.150.150.108:3000/totem/inmueble/${inputValue}`)
+            const {data} = await api.get(`/totem/inmueble/${inputValue}`)
             if(data.status === true){
                 setLoader(false)
                 navigate("/inmueble", { state: data.informacion })
