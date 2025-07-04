@@ -1,29 +1,32 @@
 .containerSearchInmueble {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   text-align: center;
   width: 100vw;
-  height: 90vh;
+  height: 80vh;
+  /* background-color: #22a2cc; */
+   /* margin-top: 10%; */
 }
 
 .containerSearchInmueble h2{
-  margin: 20px;
+  /* margin: 20px; */
   color: #22a2cc;
-  font-size: 40px;
+  font-size: 30px;
 }
 
 .containerSearchInmueble input{
     text-align: center;
 }
 .containerSearchInmueble p{
-  font-size: 25px;
+  font-size: 20px;
+  margin: 10px;
 }
 .containerInputKeyboard{
   /* background-color: red; */
   height: 90vh;
-  margin-top: 15vh;
+  /* margin-top: 15%; */
   display: flex;
   justify-content: start;
   align-items: center;
@@ -37,6 +40,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 45vh;
 }
 
 .butonBuscar{
@@ -93,4 +97,23 @@
   /* background-color: red; */
   padding: 0 10% 0 10%;
   margin-top: 10%;
+}
+
+@media  (orientation: landscape) {
+    .containerKeyboard{
+      
+    }
+    .message{
+      /* height: 20px; */
+      width: 500px;
+      margin-bottom: 0px;
+    }
+    .inputValueCodInmueble {
+      height: 50px;
+      width: 250px;
+      margin: 0;
+    }
+    .butonBuscar{
+      height: 50px;
+    }
 }

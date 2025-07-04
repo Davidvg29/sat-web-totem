@@ -32,7 +32,7 @@
 }
 
 .buttonPrint{
-  background-color: #f78533;
+  background-color: var(--naranja);
   border-radius: 5px;
   width: 100px;
   height: 30px;
@@ -48,7 +48,8 @@
 .buttonPrint:hover{
   cursor: pointer;
   background-color: #d6f5ff;
-  color: black
+  color: black;
+  transform: scale(1.1);
 }
 .buttonPrint img{
   width: 25px;

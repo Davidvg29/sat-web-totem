@@ -4,14 +4,24 @@ header{
     justify-content: center;
     align-items: center;
     padding: 10px;
+    margin: 10px;
     text-align: center;
     height: 10vh;
 }
 header img{
     margin-right: 10px;
-    width: 80px;
+    width: 70px;
 }
 header h1{
     color: var(--azul-sat);
-    font-size: 50px;
+    font-size: 2vw;
+}
+
+@media (max-width: 1080px) and (min-height: 1080px) {
+    header h1{
+        font-size: 4vw;
+    }
+    header img{
+    width: 55px;
+}
 }

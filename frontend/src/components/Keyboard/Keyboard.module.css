@@ -25,3 +25,15 @@
     cursor: pointer;
     background-color: #a1e7ff;
 }
+
+@media  (orientation: landscape) {
+    .key{
+        width: 80px;
+        height: 50px;
+        font-size: 30px;
+    }
+    .key svg{
+        width: 30px;
+    }
+
+}

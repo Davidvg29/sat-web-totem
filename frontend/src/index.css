@@ -1,7 +1,7 @@
 :root {
   /* --azul-sat: #22a2cc;  */
   --azul-sat: rgb(73, 173, 223); 
-  
+  --naranja: #f78533;
 }
 
 *{
@@ -13,7 +13,7 @@
   color: #333333;
 }
 
-body{
+/* body{
   background-image: url(../../frontend/src//assets/clean-water.jpg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -22,4 +22,29 @@ body{
   height: 100vh;
   max-width: 100vw;
   background-attachment: fixed;
+} */
+
+body {
+  position: relative;
+  height: 100vh;
+  max-width: 100vw;
+  margin: 0;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../../frontend/src/assets/clean-water.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgba(255, 255, 255, 0.295);
+  background-blend-mode: overlay;
+  filter: blur(3px);
+  z-index: -1;
 }
