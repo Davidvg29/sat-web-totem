@@ -1,33 +1,60 @@
-import axios from "axios"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Loader from "../Loader/Loader.jsx";
 import css from "./FacturasVigentes.module.css"
 import api from "../../axios/api.js";
 import imgPrint from "../../assets/printWhite.svg"
+import { useNavigate } from "react-router-dom"
 
 const FacturasVigentes = ({facturas}) => {
     const [message, setMessage] = useState("")
     const [loader, setLoader] = useState(false)
+    const [redirect, setRedirect] = useState(false)
+    const navigate = useNavigate()
+    const redirectTimeout = useRef(null) // <-- referencia al timeout
 
-    const sendNumeroFactura = async(numFactura)=>{
+    const sendNumeroFactura = async (numFactura) => {
         try {
+            setRedirect(false) // Reinicia el estado para que vuelva a activar useEffect
             setLoader(true)
-            const {data} = await api.get(`/totem/factura/imprimir/${numFactura}`)
+            const { data } = await api.get(`/totem/factura/imprimir/${numFactura}`)
             setMessage(data.message)
-            if(data.status){
+            if (data.status) {
                 setLoader(false)
+                setRedirect(true) // Activa la redirección
             }
         } catch (error) {
+            setLoader(false)
             setMessage("Error al imprimir la factura. Por favor, intente nuevamente más tarde.")
         }
     }
 
+    // Redirección después de 5 segundos cuando redirect = true
+    useEffect(() => {
+        if (redirect) {
+            // Limpia el timeout anterior si lo hay
+            if (redirectTimeout.current) {
+                clearTimeout(redirectTimeout.current)
+            }
+
+            // Inicia uno nuevo
+            redirectTimeout.current = setTimeout(() => {
+                navigate("/")
+            }, 5000)
+        }
+
+        // Limpieza del timeout cuando el componente se desmonta
+        return () => {
+            if (redirectTimeout.current) {
+                clearTimeout(redirectTimeout.current)
+            }
+        }
+    }, [redirect, navigate])
+
+    // Limpia mensaje luego de 5 segundos
     useEffect(() => {
         if (message !== "") {
-            setLoader(true)
             const timer = setTimeout(() => {
                 setMessage("");
-                setLoader(false)
             }, 5000);
             return () => clearTimeout(timer);
         }
