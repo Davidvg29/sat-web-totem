@@ -6,6 +6,7 @@ import axios from "axios"
 import Loader from "../Loader/Loader.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
 import api from "../../axios/api.js"
+import img from "../../assets/ubicacion-cod-cliente-en-factura.jpg"
 
 const SearchInmueble = () => {
     const navigate = useNavigate()
@@ -57,7 +58,7 @@ const SearchInmueble = () => {
     return ( 
         <div className={css.containerSearchInmueble}>
             <h2>¡Bienvenido!</h2>
-            <p><b>Ingrese el código del inmueble para visualizar las facturas a vencer.</b></p> 
+            <p><b>Ingrese el código de cliente para visualizar las facturas a vencer.</b></p> 
             <div className={css.containerInputKeyboard}>
                 <form onSubmit={searchInmueble}>
                     <input className={css.inputValueCodInmueble} type="number" autoFocus value={inputValue} onChange={handleChange} placeholder="Ej: 16400000"/>
@@ -67,8 +68,12 @@ const SearchInmueble = () => {
                     <Keyboard handleInputValue={handleInputValue}/>
                     <button className={css.butonBuscar} value="Buscar" onClick={searchInmueble}>BUSCAR</button>
                 </div>
-            <p className={css.pAvisoImportante}><b>AVISO IMPORTANTE: Para consultar por facturas vencidas o planes de financiación, dirigirse a los boxes de atención al cliente.</b></p>
             {loader ? (<Loader message={"Buscando facturas del inmueble..."}/>) : ""}
+            <div className={css.containerImg}>
+                <p className={css.pDondeEncuentro}> ¿Dónde encuentro el código de cliente en la factura?</p>
+                <img className={css.img} src={img} alt="¿Dónde encuentro el código de cliente en la factura?" title="¿Dónde encuentro el código de cliente en la factura?" />
+            </div>
+            <p className={css.pAvisoImportante}><b>AVISO IMPORTANTE: Para consultar por facturas vencidas o planes de financiación, dirigirse a los boxes de atención al cliente.</b></p>
             </div>
         </div>
      );
