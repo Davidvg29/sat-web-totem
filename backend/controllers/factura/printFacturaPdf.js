@@ -10,7 +10,7 @@ const printFacturaPdf = async (req, res) => {
     try {
         const conn = await connectSSH()
         await getFacturasVigentesSAT(`res_facturas_vigentes${numeroFactura}.pdf`, conn)
-        printer.print(filePath)
+        printer.print(filePath, { printer: process.env.IMPRESORA })
         .then(() => {
             res.status(200).json({
                     status: true,
