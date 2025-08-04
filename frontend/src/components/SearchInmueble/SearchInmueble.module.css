@@ -20,7 +20,7 @@
     text-align: center;
 }
 .containerSearchInmueble p{
-  font-size: 20px;
+  font-size: 24px;
   margin: 10px;
 }
 .containerInputKeyboard{
@@ -93,10 +93,11 @@
   margin-bottom: 20px;
 }
 
-.pAvisoImportante{
+p.pAvisoImportante{
   /* background-color: red; */
   padding: 10% 10% 0 10%;
   /* margin-top: 100px; */
+   font-size: 30px;
 }
 
 p.pDondeEncuentro{
