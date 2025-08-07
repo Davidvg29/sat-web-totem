@@ -1,0 +1,133 @@
+.containerInfo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background-color: #f5f7fa;
+  padding: 2rem;
+  height: 100vh;
+}
+
+.card {
+  background-color: white;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* importante para contener scroll interno */
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+  flex-shrink: 0;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #555;
+  flex-shrink: 0;
+}
+
+.total {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.total span {
+  font-weight: bold;
+  color: #0077cc;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  /* Esta altura hace que la lista ocupe el espacio restante en la tarjeta */
+  flex-grow: 1;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.listItem {
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.listItem span {
+  font-weight: 600;
+  color: #444;
+}
+
+.loading,
+.error {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+.error {
+  color: red;
+}
+
+/* Estilos para filtros, manteniendo consistencia */
+.filtroFechas {
+  /* margin-top: 2rem; */
+  text-align: left;
+  flex-shrink: 0;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+.filtros label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.filtros input {
+  margin-top: 0.3rem;
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 0.4rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: end;
+}
+
+.buttons button {
+  padding: 0.5rem 1rem;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.buttons button:hover {
+  background-color: #005fa3;
+}
