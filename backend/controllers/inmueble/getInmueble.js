@@ -2,6 +2,7 @@ const { crearArchivoRemoto, leerArchivoRemotoTes, leerArchivoRemotoTxt, getFactu
 const validarCodInmueble = require("../../validations/validarCodInmueble");
 
 const getInmueble = async (req, res) => {
+    let conn = null;
     try {
         const { codInmueble } = req.params;
 
@@ -13,9 +14,9 @@ const getInmueble = async (req, res) => {
             });
         }
 
-        const conn = await connectSSH()
+        conn = await connectSSH()
         
-        const archivoRemoto = await crearArchivoRemoto(codInmueble, conn);
+        const archivoRemoto = await crearArchivoRemoto(`sol_facturas_vigentes${codInmueble}`, codInmueble, conn);
         if (!archivoRemoto) {
             return res.status(500).json({
                 status: false,
@@ -127,17 +128,17 @@ const getInmueble = async (req, res) => {
             // }
         }
         infoInmueble.informacion.facturas_vigentes = facturas
-        console.log("Fin del try de funcion getInmueble")
-        conn.end()
-        return res.status(200).json(infoInmueble);
+        // console.log("Fin del try de funcion getInmueble")
+        res.status(200).json(infoInmueble);
+        if(conn){conn.end()}
 
     } catch (error) {
-        conn.end()
         console.error("❌ Error en getInmueble:", error);
-        return res.status(500).json({
+        res.status(500).json({
             status: false,
             message: "Error interno del servidor al obtener inmueble",
         });
+        if(conn){conn.end()}
     }
 };
 module.exports = getInmueble;

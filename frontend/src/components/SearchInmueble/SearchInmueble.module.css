@@ -20,12 +20,12 @@
     text-align: center;
 }
 .containerSearchInmueble p{
-  font-size: 20px;
+  font-size: 24px;
   margin: 10px;
 }
 .containerInputKeyboard{
   /* background-color: red; */
-  height: 90vh;
+  /* height: 50vh; */
   /* margin-top: 15%; */
   display: flex;
   justify-content: start;
@@ -40,7 +40,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 45vh;
+    height: 35vh;
 }
 
 .butonBuscar{
@@ -93,15 +93,35 @@
   margin-bottom: 20px;
 }
 
-.pAvisoImportante{
+p.pAvisoImportante{
   /* background-color: red; */
-  padding: 0 10% 0 10%;
-  margin-top: 10%;
+  padding: 10% 10% 0 10%;
+  /* margin-top: 100px; */
+   font-size: 30px;
+}
+
+p.pDondeEncuentro{
+  /* background-color: red; */
+  font-size: 24px;
+  font-weight: 600;
+}
+.containerImg{
+  /* background-color: red; */
+  width: 100%;
+}
+img.img {
+  /* background-color: red; */
+  object-fit: contain;
+  width: 80%;
+  max-width: 700px;
+  height: 80%;
+  margin: 10px;
+  border-radius: 10px;
 }
 
 @media  (orientation: landscape) {
     .containerKeyboard{
-      
+
     }
     .message{
       /* height: 20px; */
@@ -115,5 +135,16 @@
     }
     .butonBuscar{
       height: 50px;
+    }
+    .containerImg{
+      /* background-color: red; */
+      /* transform: translate(45%, -100%); */
+      /* position: absolute; */
+      /* top: 30%; */
+      /* right: -28%; */
+      display: none;
+    }
+    img.img {
+      /* max-width: 30vw; */
     }
 }
