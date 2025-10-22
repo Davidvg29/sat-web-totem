@@ -8,22 +8,24 @@ const printFacturaPdf = async (req, res) => {
     const filePath = path.join(__dirname, `../../cache/res_facturas_vigentes${numeroFactura}.pdf`);
     const jsonPath = path.join(__dirname, "../../data/data.json");
 
+    let conn = null;
+
     try {
-        const conn = await connectSSH();
+        conn = await connectSSH();
         await getFacturasVigentesSAT(`res_facturas_vigentes${numeroFactura}.pdf`, conn);
         await printer.print(filePath, { printer: process.env.IMPRESORA });
 
-        // ✅ Leer JSON
+        // Leer JSON
         const data = await fs.readFile(jsonPath, "utf-8");
         const dataJson = JSON.parse(data);
 
-        // ✅ Actualizar cantidad total
+        // Actualizar cantidad total
         dataJson.facturasImpresasTotal = String(Number(dataJson.facturasImpresasTotal) + 1);
 
-        // ✅ Obtener fecha actual en formato YYYY-MM-DD
+        // Obtener fecha actual en formato YYYY-MM-DD
         const hoy = new Date().toISOString().split("T")[0];
 
-        // ✅ Buscar si ya hay registro para hoy
+        // Buscar si ya hay registro para hoy
         const registroExistente = dataJson.facturasImpresas.find(f => f.fecha === hoy);
 
         if (registroExistente) {
@@ -37,24 +39,25 @@ const printFacturaPdf = async (req, res) => {
             });
         }
 
-        // ✅ Guardar cambios en el JSON
-        await fs.writeFile(jsonPath, JSON.stringify(dataJson, null, 2), "utf-8");
-
-        // ✅ Eliminar el PDF temporal
-        await fs.unlink(filePath);
-
-        // ✅ Enviar respuesta
-        return res.status(200).json({
+        //Enviar respuesta
+        res.status(200).json({
             status: true,
             message: "Factura impresa correctamente.",
         });
 
+        //Guardar cambios en el JSON
+        await fs.writeFile(jsonPath, JSON.stringify(dataJson, null, 2), "utf-8");
+
+        //Eliminar el PDF temporal
+        await fs.unlink(filePath);
+
     } catch (error) {
         console.error("Error en printFacturaPdf:", error);
-        return res.status(500).json({
+        res.status(500).json({
             status: false,
             message: "Error al imprimir factura.",
         });
+        if(conn){conn.end();}
     }
 };
 
