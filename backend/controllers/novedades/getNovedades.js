@@ -1,18 +1,15 @@
-const path = require("path");
-const fs = require("fs").promises;
+const pool = require("../../config/bd/bd");
 
 const getNovedades = async (req, res) => {
   try {
-    const jsonPath = path.join(__dirname, "../../data/data.json");
-
-    // Leer y parsear el archivo JSON
-    const data = await fs.readFile(jsonPath, "utf-8");
-    const json = JSON.parse(data);
-
-    // Enviar respuesta
+    const queryGetFacturasImpresas = await pool.query("SELECT * FROM facturas_impresas");
+    const queryGetTotalFacturasImpresas = await pool.query("SELECT * FROM total_facturas_impresas");
     return res.status(200).json({
       status: true,
-      data: json
+      data: {
+        totalFacturasImpresas: queryGetTotalFacturasImpresas.rows[0],
+        facturasImpresas: queryGetFacturasImpresas.rows
+      }
     });
   } catch (error) {
     console.error("Error al leer facturas impresas:", error);
