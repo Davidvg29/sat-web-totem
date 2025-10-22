@@ -1,9 +1,9 @@
 {
-  "facturasImpresasTotal": "5",
+  "facturasImpresasTotal": "6",
   "facturasImpresas": [
     {
       "fecha": "2025-10-22",
-      "cantidad": "5"
+      "cantidad": "6"
     }
   ]
 }
