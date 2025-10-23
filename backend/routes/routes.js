@@ -9,7 +9,7 @@ const getNovedades = require('../controllers/novedades/getNovedades');
 router.get("/inmueble/:codInmueble", getInmueble)
 
 //factura
-router.get("/factura/imprimir/:numeroFactura", printFacturaPdf)
+router.post("/factura/imprimir", printFacturaPdf)
 
 //novedades
 router.get("/novedades", getNovedades)

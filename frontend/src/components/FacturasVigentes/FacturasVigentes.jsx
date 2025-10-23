@@ -12,11 +12,16 @@ const FacturasVigentes = ({facturas}) => {
     const navigate = useNavigate()
     const redirectTimeout = useRef(null) // <-- referencia al timeout
 
-    const sendNumeroFactura = async (numFactura) => {
+    console.log(facturas);
+    
+
+    const sendNumeroFactura = async (factura) => {
+        console.log(factura);
+        
         try {
             setRedirect(false) // Reinicia el estado para que vuelva a activar useEffect
             setLoader(true)
-            const { data } = await api.get(`/totem/factura/imprimir/${numFactura}`)
+            const { data } = await api.post(`/totem/factura/imprimir`, factura)
             setMessage(data.message)
             if (data.status) {
                 setLoader(false)
@@ -81,7 +86,7 @@ const FacturasVigentes = ({facturas}) => {
                                 <td>{factura.periodo}</td>
                                 <td>{factura.vencimiento}</td>
                                 <td><b>${factura.importe}</b></td>
-                                <td className={css.ultimaColumna}><button className={css.buttonPrint} onClick={()=>{sendNumeroFactura(`${factura.prefijo}${factura.numFactura}`)}}><img src={imgPrint}/> Imprimir</button></td>
+                                <td className={css.ultimaColumna}><button className={css.buttonPrint} onClick={()=>{sendNumeroFactura(factura)}}><img src={imgPrint}/> Imprimir</button></td>
                             </tr>
                         ))}
                     </tbody>

@@ -131,3 +131,134 @@
 .buttons button:hover {
   background-color: #005fa3;
 }
+/* ... (tus estilos existentes como .containerInfo, .card, .title, etc.) ... */
+
+.filtrosContainer {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+  margin-bottom: 20px;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap; /* Para que se ajusten en pantallas pequeñas */
+  gap: 15px; /* Espacio entre inputs */
+  margin-bottom: 15px;
+}
+
+.filtros label {
+  display: flex;
+  flex-direction: column; /* Título encima del input */
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #555;
+}
+
+.filtros input[type="date"],
+.filtros input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.buttons button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff; /* Azul */
+  color: white;
+  font-weight: bold;
+}
+
+.buttons .resetButton {
+  background-color: #6c757d; /* Gris */
+}
+
+.buttons button:hover {
+  opacity: 0.9;
+}
+
+.subtitle {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.total {
+  font-size: 1.1em;
+  margin-bottom: 15px;
+}
+.total span {
+  font-weight: bold;
+  color: #0056b3;
+}
+
+/* --- Estilos para la Tabla --- */
+.tableContainer {
+  width: 100%;
+  overflow-x: auto; /* Para que la tabla sea responsive en móvil */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse; /* Bordes unidos */
+  margin-top: 15px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  font-size: 0.9em;
+}
+
+.table th {
+  background-color: #f4f4f4;
+  font-weight: 600;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Filas intercaladas */
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1; /* Hover sobre fila */
+}
+
+/* ... (Tus estilos existentes) ... */
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap; /* Para que los botones se ajusten en móviles */
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* ... (Tus estilos .buttons button y .resetButton) ... */
+
+/* NUEVO: Estilo para el botón de exportar */
+.exportButton {
+  background-color: #217346; /* Verde Excel */
+  color: white;
+}
+
+.exportButton:hover {
+  background-color: #1a5937;
+}
+
+/* NUEVO: Estilo para el botón deshabilitado */
+.exportButton:disabled {
+  background-color: #a9a9a9; /* Gris */
+  cursor: not-allowed;
+}
+
