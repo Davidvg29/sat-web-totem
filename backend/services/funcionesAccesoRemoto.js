@@ -1,10 +1,13 @@
 
 const { Client } = require('ssh2');
 require("dotenv").config();
+const fs = require("fs").promises;
 
 exports.connectSSH = async () => {
     try {
         const conn = new Client();
+        const passphrase = process.env.SSH_PASSPHRASE;
+        const privateKey = await fs.readFile(process.env.SSH_PRIVATEKEY);
         return await new Promise((resolve, reject) => {
             conn.on('ready', () => {
                 console.log('✅ Conexión SSH establecida');
@@ -16,7 +19,8 @@ exports.connectSSH = async () => {
                 host: process.env.SSH_HOST, 
                 port: process.env.SSH_PORT, 
                 username: process.env.SSH_USER, 
-                password: process.env.SSH_PASS 
+                privateKey,
+                passphrase,
             });
         });
     } catch (error) {
