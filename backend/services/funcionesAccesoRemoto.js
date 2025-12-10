@@ -32,7 +32,7 @@ exports.connectSSH = async () => {
 exports.crearArchivoRemoto = async (nombreArchivoMasCodigoCliente, codInmueble, conn) => {
     try {
         // conn = await exports.connectSSH();
-        let command = `mkdir -p /${process.env.DIRECTORIO_SOLICITUD} && echo "${codInmueble}" > /${process.env.DIRECTORIO_SOLICITUD}/${nombreArchivoMasCodigoCliente}`;
+        let command = `echo "${codInmueble}" > /${process.env.DIRECTORIO_SOLICITUD}/${nombreArchivoMasCodigoCliente}`;
         await new Promise((resolve, reject) => {
             conn.exec(command, (err, stream) => {
                 if (err) {
