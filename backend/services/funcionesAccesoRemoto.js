@@ -69,7 +69,7 @@ exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente, conn) => {
     const start = Date.now(); // guardamos el momento de inicio
 
     try {
-        let command = `cat /${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivoMasCodigoCliente}`;
+        let command = `cat ${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivoMasCodigoCliente}`;
         let exist = true;
 
         do {
