@@ -25,6 +25,12 @@ const getInmueble = async (req, res) => {
         }
 
         const archivoTes = await leerArchivoRemotoTes(`res_ident_de_clientes${codInmueble}.tes`, conn);
+        if (archivoTes === "timeout") {
+            return res.status(408).json({
+                status: false,
+                message: "El sistema está tardando más de lo esperado. Por favor, intente nuevamente en unos momentos.",
+            });
+        }
         if (archivoTes === "0001") {
             return res.status(404).json({
                 status: true,
@@ -38,6 +44,12 @@ const getInmueble = async (req, res) => {
             });
         }
         const archivoTes2 = await leerArchivoRemotoTes(`res_facturas_vigentes${codInmueble}.tes`, conn);
+        if (archivoTes2 === "timeout") {
+            return res.status(408).json({
+                status: false,
+                message: "El sistema está tardando más de lo esperado. Por favor, intente nuevamente en unos momentos.",
+            });
+        }
         if (archivoTes2 === "0001") {
             return res.status(404).json({
                 status: false,
@@ -52,6 +64,12 @@ const getInmueble = async (req, res) => {
         }
         let infoInmueble = {}
         const archivoTxt = await leerArchivoRemotoTxt(`res_ident_de_clientes${codInmueble}.txt`,conn);
+        if (!archivoTxt) {
+            return res.status(500).json({
+                status: false,
+                message: "Ocurrio un error, intente otra vez.",
+            });
+        }
         infoInmueble = {
             status: true,
             message: "Inmueble encontrado",
@@ -80,6 +98,12 @@ const getInmueble = async (req, res) => {
         }
         let facturas = []
         const archivoTxtFacturasVigentes = await leerArchivoRemotoTxt(`res_facturas_vigentes${codInmueble}.txt`, conn);
+        if (!archivoTxtFacturasVigentes) {
+            return res.status(500).json({
+                status: false,
+                message: "Ocurrio un error, intente otra vez.",
+            });
+        }
         for (let i = 0; i < archivoTxtFacturasVigentes.length-1; i++) {
             let factura = {
                 codInmueble:"",
@@ -130,7 +154,6 @@ const getInmueble = async (req, res) => {
         infoInmueble.informacion.facturas_vigentes = facturas
         // console.log("Fin del try de funcion getInmueble")
         res.status(200).json(infoInmueble);
-        if(conn){conn.end()}
 
     } catch (error) {
         console.error("❌ Error en getInmueble:", error);
@@ -138,7 +161,8 @@ const getInmueble = async (req, res) => {
             status: false,
             message: "Error interno del servidor al obtener inmueble",
         });
-        if(conn){conn.end()}
+    } finally {
+        if (conn) conn.end();
     }
 };
 module.exports = getInmueble;
