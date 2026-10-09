@@ -16,6 +16,8 @@ const printFacturaPdf = async (req, res) => {
     try {
         conn = await connectSSH();
         await getFacturasVigentesSAT(`res_facturas_vigentes${prefijo}${numFactura}.pdf`, conn);
+        // el PDF ya está descargado: se libera la conexión antes de imprimir
+        conn.end();
         await printer.print(filePath, { printer: process.env.IMPRESORA });
 
         //Enviar respuesta
@@ -47,7 +49,8 @@ const printFacturaPdf = async (req, res) => {
             status: false,
             message: "Error al imprimir factura.",
         });
-        if(conn){conn.end();}
+    } finally {
+        if (conn) conn.end();
     }
     
     

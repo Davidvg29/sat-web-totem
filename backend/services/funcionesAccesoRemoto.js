@@ -1,13 +1,21 @@
 
 const { Client } = require('ssh2');
 require("dotenv").config();
+const fs = require("fs").promises;
+
+const MAX_VIDA_CONEXION_MS = 150000; // una consulta completa puede tardar hasta ~120s entre lecturas
 
 exports.connectSSH = async () => {
     try {
         const conn = new Client();
+        const passphrase = process.env.SSH_PASSPHRASE;
+        const privateKey = await fs.readFile(process.env.SSH_PRIVATEKEY);
         return await new Promise((resolve, reject) => {
             conn.on('ready', () => {
                 console.log('✅ Conexión SSH establecida');
+                // cierre automático de seguridad por si alguna petición se cuelga sin cerrar la conexión
+                const cierreSeguridad = setTimeout(() => conn.end(), MAX_VIDA_CONEXION_MS);
+                conn.once('close', () => clearTimeout(cierreSeguridad));
                 resolve(conn);
             }).on('error', (err) => {
                 console.error('❌ Error de conexión SSH:', err);
@@ -16,7 +24,9 @@ exports.connectSSH = async () => {
                 host: process.env.SSH_HOST, 
                 port: process.env.SSH_PORT, 
                 username: process.env.SSH_USER, 
-                password: process.env.SSH_PASS 
+                privateKey,
+                passphrase,
+                readyTimeout: 10000,
             });
         });
     } catch (error) {
@@ -28,7 +38,7 @@ exports.connectSSH = async () => {
 exports.crearArchivoRemoto = async (nombreArchivoMasCodigoCliente, codInmueble, conn) => {
     try {
         // conn = await exports.connectSSH();
-        let command = `mkdir -p /${process.env.DIRECTORIO_SOLICITUD} && echo "${codInmueble}" > /${process.env.DIRECTORIO_SOLICITUD}/${nombreArchivoMasCodigoCliente}`;
+        let command = `echo "${codInmueble}" > /${process.env.DIRECTORIO_SOLICITUD}/${nombreArchivoMasCodigoCliente}`;
         await new Promise((resolve, reject) => {
             conn.exec(command, (err, stream) => {
                 if (err) {
@@ -65,7 +75,7 @@ exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente, conn) => {
     const start = Date.now(); // guardamos el momento de inicio
 
     try {
-        let command = `cat /${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivoMasCodigoCliente}`;
+        let command = `cat ${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivoMasCodigoCliente}`;
         let exist = true;
 
         do {
@@ -125,47 +135,37 @@ exports.leerArchivoRemotoTes = async (nombreArchivoMasCodigoCliente, conn) => {
 };
 
 exports.leerArchivoRemotoTxt = async (nombreArchivoMasCodigoCliente, conn) => {
-    // let conn;
-    let fileContent = ''; // Asegúrate de inicializar fileContent
+    const TIMEOUT_MS = 30000;        // tiempo maximo de espera a que aparezca el archivo
+    const INTERVALO_REINTENTO = 500; // pausa entre intentos
+    const start = Date.now();
+    const command = `cat ${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivoMasCodigoCliente}`;
+
     try {
-        let command = `cat ${process.env.DIRECTORIO_RESPUESTA}/${nombreArchivoMasCodigoCliente}`;
-        
-        // conn = await exports.connectSSH();
-        let exist = true
-        // Usamos la promesa para manejar la ejecución del comando SSH
-        do{
-            await new Promise((resolve, reject) => {
-            conn.exec(command, (err, stream) => {
-                if (err) {
-                    reject(err);  // Rechazar si hay error en la ejecución
-                    return;
-                }
-                // Capturamos la salida estándar (STDOUT)
-                stream.on('data', (data) => {
-                   //console.log('STDOUT: ' + data);  // Ver qué datos estamos recibiendo
-                    fileContent += data.toString().split("/\s+/");
-                    fileContent = fileContent.split("\n");
-                    exist=false
+        while (Date.now() - start < TIMEOUT_MS) {
+            // cada intento acumula en su propio buffer; el archivo puede llegar en varios chunks
+            const contenido = await new Promise((resolve, reject) => {
+                conn.exec(command, (err, stream) => {
+                    if (err) return reject(err);
+                    let data = '';
+                    stream.on('data', (chunk) => { data += chunk.toString(); });
+                    // se consume stderr (ej: "No such file") para que el canal no quede trabado
+                    stream.stderr.on('data', () => {});
+                    stream.on('error', reject);
+                    stream.on('close', () => resolve(data));
                 });
-                // Al cerrar el flujo, resolvemos la promesa
-                stream.on('close', (code) => {
-                   // console.log(`✅ Archivo leído con éxito`);
-                    resolve();  // Resolvemos la promesa
-                });
-                // Capturamos los errores (STDERR)
-                // stream.stderr.on('data', (data) => {
-                //     console.error('STDERR: ' + data);
-                // });
             });
-        });
-        }while(exist)
+
+            // el archivo existe y tiene contenido: se devuelve un array de lineas
+            if (contenido.length > 0) return contenido.split("\n");
+
+            await new Promise(r => setTimeout(r, INTERVALO_REINTENTO));
+        }
+
+        console.error(`Tiempo de espera agotado leyendo ${nombreArchivoMasCodigoCliente}`);
+        return false;
     } catch (error) {
         console.error('❌ Error al leer el archivo:', error);
-        return false; // Si ocurre un error, retornamos false
-    } finally {
-        // if (conn) conn.end(); // Cerramos la conexión SSH
-        //console.log(fileContent)
-        return fileContent;
+        return false;
     }
 };
 
@@ -190,7 +190,6 @@ exports.getFacturasVigentesSAT = async (nombreArchivo, conn) => {
             conn.exec(`cat ${namePDF}`, (err, stream) => {
                 if (err) {
                     console.error('❌ Error al ejecutar comando remoto:', err);
-                    conn.end();
                     return reject(false);
                 }
 
@@ -215,7 +214,6 @@ exports.getFacturasVigentesSAT = async (nombreArchivo, conn) => {
 
                 stream.on('error', (streamErr) => {
                     console.error("❌ Error en el stream:", streamErr);
-                    conn.end();
                     return reject(false);
                 });
             });
